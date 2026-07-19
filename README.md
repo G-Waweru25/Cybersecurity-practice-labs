@@ -1,2 +1,2 @@
-# Senior Web Penetration Tester on HTB
+# Senior Web Penetration Tester on HTB (Module)
 
