@@ -1,6 +1,7 @@
 # Table of contents
 
 * [Senior Web Penetration Tester on HTB (Module)](README.md)
+  * [Page 5](senior-web-penetration-tester-on-htb-module/page-5.md)
 * [THM Practice Labs](thm-practice-labs/README.md)
   * [Splunk Exploration on THM](thm-practice-labs/splunk-exploration-on-thm.md)
 * [HTB Practice Labs](htb-practice-labs/README.md)
