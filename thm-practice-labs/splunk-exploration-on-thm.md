@@ -10,17 +10,19 @@ This room covers the core features of SPL, including log filtering, command chai
 
 The Splunk Search & Reporting App is the default interface for searching and analyzing indexed data, providing features such as the Search Head, Time Picker, Search History, Data Summary, and Fields Sidebar to help analysts efficiently query, explore, and interpret log data.
 
+#### Questions
+
 To reinforce these concepts, the following exercises involved querying and analyzing the Windows logs dataset using the Splunk Search & Reporting App.
 
-* Executing the query `index=windowslogs` over the **All Time** range returned a total of **12,256 events**.
+1. Executing the query `index=windowslogs` over the **All Time** range returned a total of **12,256 events**.
 
 <figure><img src="../.gitbook/assets/image (6).png" alt=""><figcaption></figcaption></figure>
 
-* The **SourceIP** field showed that **172.90.12.11** generated the highest number of events in the dataset.
+2. The **SourceIP** field showed that **172.90.12.11** generated the highest number of events in the dataset.
 
 <figure><img src="../.gitbook/assets/image (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-* Filtering the logs for **04/15/2022** between **08:05 AM and 08:06 AM** returned **134 events**.
+3. Filtering the logs for **04/15/2022** between **08:05 AM and 08:06 AM** returned **134 events**.
 
 <figure><img src="../.gitbook/assets/image (2) (1).png" alt=""><figcaption></figcaption></figure>
 
@@ -46,25 +48,27 @@ Splunk supports wildcards (`*`) for searching partial text matches, as illustrat
 
 Further, Splunk uses **quotation marks (`""`)** to search for exact phrases or treat multiple words as a single search value, while **parentheses (`()`)** group search conditions and control the order of evaluation of logical operators, ensuring complex queries return the intended results.
 
+#### Questions
+
 I subsequently applied the search operators in a practical exercise to filter and analyze Windows event logs.
 
-Firstly, I executed the query `index=windowslogs EventID=4624 | stats count` to retrieve events with the `EventID` value `4624`.
+1. Firstly, I executed the query `index=windowslogs EventID=4624 | stats count` to retrieve events with the `EventID` value `4624`.
 
 <figure><img src="../.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
 
-Secondly, I executed the query `index=windowslogs DestinationIp="172.18.39.6" DestinationPort=135 | stats count` to determine the number of events with the destination IP address `172.18.39.6` and destination port `135`, which returned a total of **4** events.
+2. Secondly, I executed the query `index=windowslogs DestinationIp="172.18.39.6" DestinationPort=135 | stats count` to determine the number of events with the destination IP address `172.18.39.6` and destination port `135`, which returned a total of **4** events.
 
 <figure><img src="../.gitbook/assets/Screenshot 2026-07-24 153323.png" alt=""><figcaption></figcaption></figure>
 
-Thirdly, I ran the query `index=windowslogs Hostname=Salena.Adam DestinationIp=172.18.38.5` and found that the source IP address with the highest event count was **`172.90.12.11`**.
+3. Thirdly, I ran the query `index=windowslogs Hostname=Salena.Adam DestinationIp=172.18.38.5` and found that the source IP address with the highest event count was **`172.90.12.11`**.
 
 <figure><img src="../.gitbook/assets/image (4).png" alt=""><figcaption></figcaption></figure>
 
-Fourthly, I applied wildcard searching by executing the query `index=windowslogs cyber*`, which returned **12,256** matching events from the `windowslogs` index.
+4. Fourthly, I applied wildcard searching by executing the query `index=windowslogs cyber*`, which returned **12,256** matching events from the `windowslogs` index.
 
 <figure><img src="../.gitbook/assets/image (5).png" alt=""><figcaption></figcaption></figure>
 
-Lastly, I identified the `AND` operator as having the lowest priority in Splunk search evaluation.
+5. Lastly, I identified the `AND` operator as having the lowest priority in Splunk search evaluation.
 
 <figure><img src="../.gitbook/assets/Screenshot 2026-07-24 154927.png" alt=""><figcaption></figcaption></figure>
 
@@ -108,11 +112,13 @@ To perform pattern matching instead of exact-value searching, the query:
 
 <figure><img src="../.gitbook/assets/Screenshot 2026-07-26 145535.png" alt=""><figcaption></figcaption></figure>
 
-To demonstrate the practical application of the `fields` command, I executed the query `index=windowslogs | fields + Domain SourceProcessId TargetProcessId`, which displayed the selected fields and showed that the highest `SourceProcessId` value was **9496**.
+#### Questions
+
+1. To demonstrate the practical application of the `fields` command, I executed the query `index=windowslogs | fields + Domain SourceProcessId TargetProcessId`, which displayed the selected fields and showed that the highest `SourceProcessId` value was **9496**.
 
 <figure><img src="../.gitbook/assets/Screenshot 2026-07-27 123320 (1).png" alt=""><figcaption></figcaption></figure>
 
-Furthermore, using the query:
+2. Furthermore, using the query:
 
 `index=windowslogs | regex TargetObject="Manager$" | stats count by TargetObject`,&#x20;
 
@@ -138,15 +144,17 @@ Splunk **subsearches** use the `join` command to correlate events from multiple 
 
 <figure><img src="../.gitbook/assets/Screenshot 2026-07-27 134155.png" alt=""><figcaption></figcaption></figure>
 
-Applying the `table` command in a practical task, the query `index=windowslogs | table EventID AccountName AccountType` generated a structured table and revealed `SYSTEM` as the first `AccountName`.
+#### Questions
+
+1. Applying the `table` command in the practical task, the query `index=windowslogs | table EventID AccountName AccountType` generated a structured table and revealed `SYSTEM` as the first `AccountName`.
 
 <figure><img src="../.gitbook/assets/Screenshot 2026-07-27 172141.png" alt=""><figcaption></figcaption></figure>
 
-Building on the previous task, the query `index=windowslogs | table EventID AccountName AccountType | reverse` was used to reverse the order of the tabulated results, with `EventID` **800** appearing first.
+2. Building on the previous task, the query `index=windowslogs | table EventID AccountName AccountType | reverse` was used to reverse the order of the tabulated results, with `EventID` **800** appearing first.
 
 <figure><img src="../.gitbook/assets/Screenshot 2026-07-27 172835.png" alt=""><figcaption></figcaption></figure>
 
-A chronological timeline of process creation events was generated using the query `index=windowslogs EventID=1 | table _time ParentProcessId ProcessId ParentCommandLine CommandLine | reverse`, which revealed from the `ParentCommandLine` field that the command `net user /add A1berto paw0rd1` was executed, showing that the password assigned to the user `A1berto` was `paw0rd1`.
+3. A chronological timeline of process creation events was generated using the query `index=windowslogs EventID=1 | table _time ParentProcessId ProcessId ParentCommandLine CommandLine | reverse`, which revealed from the `ParentCommandLine` field that the command `net user /add A1berto paw0rd1` was executed, showing that the password assigned to the user `A1berto` was `paw0rd1`.
 
 <figure><img src="../.gitbook/assets/Screenshot 2026-07-27 173400.png" alt=""><figcaption></figcaption></figure>
 
@@ -231,6 +239,10 @@ The query identified **`jsmith`** as the second outlier, with **Japan (JP)** as 
 The query calculated a **z-score** of **5.49** using the formula **(13.50 − 3.28) ÷ 1.86 = 5.49**, indicating that the login occurred approximately **5.5 standard deviations** earlier than the user's typical login time of **13:30**, thereby classifying it as a significant anomaly.
 
 <figure><img src="../.gitbook/assets/Screenshot 2026-07-28 125648.png" alt=""><figcaption></figcaption></figure>
+
+#### Conclusion&#x20;
+
+This room strengthened my understanding of Splunk's Search Processing Language (SPL) by demonstrating how to search, filter, transform, enrich, visualize, and correlate log data to support security investigations. I learned to detect anomalies using statistical techniques such as frequency analysis and z-scores, enabling the identification of suspicious user behaviour. Key remediation measures include investigating flagged accounts, validating unusual login locations and times, enforcing multi-factor authentication (MFA), and continuously monitoring user activity for potential compromise.
 
 
 
